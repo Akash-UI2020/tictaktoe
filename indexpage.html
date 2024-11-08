@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="index.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <section class="start-container">
+        <h1>Tic Tac Toe</h1>
+        <p>Choose Your Game Mode</p>
+        
+        <!-- Dropdown for selecting game mode -->
+        <div class="mode-dropdown">
+            <select id="gameMode" onchange="startGame()">
+                <option value="option">None</option>
+                <option value="ai">1 Player</option>
+                <option value="base">2 Players</option>
+            </select>
+        </div>
+    </section>
+
+    <script>
+        function startGame() {
+            const mode = document.getElementById('gameMode').value;
+            if (mode === 'ai') {
+                window.location.href = 'ai.html'; // Redirect to 1 Player mode
+            } else if (mode === 'base') {
+                window.location.href = 'base.html'; // Redirect to 2 Players mode
+            }
+        }
+    </script>
+</body>
+</html>
