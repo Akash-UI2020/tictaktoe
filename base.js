@@ -55,6 +55,8 @@ function handleCellClick(clickedCellEvent) {
 
     handleCellPlayed(clickedCell, clickedCellIndex);
     handleResultValidation();
+    clickedCell.classList.add('disabled');
+    clickedCell.style.pointerEvents = 'none';
 }
 
 function handleCellPlayed(clickedCell, clickedCellIndex) {
