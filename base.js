@@ -17,9 +17,9 @@ let oScore = 0;
 
 statusDisplay.innerHTML = `It's ${currentPlayer}'s turn`;
 
-const winSound = new Audio('game-start.mp3');
-const tieSound = new Audio('match-cave.mp3');
-const clickSound = new Audio('mouse-click.mp3');
+const winSound = new Audio('sounds/game-start.mp3');
+const tieSound = new Audio('sounds/match-cave.mp3');
+const clickSound = new Audio('sounds/mouse-click.mp3');
 
 const winningConditions = [
     [0, 1, 2],
