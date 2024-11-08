@@ -15,7 +15,7 @@
         <div class="mode-dropdown">
             <select id="gameMode" onchange="startGame()">
                 <option value="option">None</option>
-                <option value="ai">1 Player</option>
+                <option value="Ai">1 Player</option>
                 <option value="base">2 Players</option>
             </select>
         </div>
@@ -24,7 +24,7 @@
     <script>
         function startGame() {
             const mode = document.getElementById('gameMode').value;
-            if (mode === 'ai') {
+            if (mode === 'Ai') {
                 window.location.href = 'Ai.html'; // Redirect to 1 Player mode
             } else if (mode === 'base') {
                 window.location.href = 'base.html'; // Redirect to 2 Players mode
