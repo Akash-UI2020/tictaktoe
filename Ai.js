@@ -1,3 +1,4 @@
+
 const statusDisplay = document.querySelector('.game--status');
 let gameActive = true;
 let currentPlayer = "X"; // Player starts first
@@ -104,6 +105,7 @@ function handleResultValidation() {
             oScore++;
             document.getElementById('oScore').innerText = oScore;
         }
+        checkWinner();
         setTimeout(handleRestartGame, 2000);
         return;
     }
@@ -129,14 +131,83 @@ function handlePlayerChange() {
 }
 
 function aiMove() {
-    const availableCells = gameState.map((val, index) => val === "" ? index : -1).filter(index => index !== -1);
-    const randomIndex = availableCells[Math.floor(Math.random() * availableCells.length)];
+    const availableCells = gameState
+        .map((val, index) => (val === "" ? index : -1))
+        .filter(index => index !== -1);
 
-    setTimeout(() => {
-        const clickedCell = document.querySelector(`.cell[data-cell-index='${randomIndex}']`);
-        handleCellPlayed(clickedCell, randomIndex);
-        handleResultValidation();
-    }, 200); // AI delay for better experience
+    // Check for a winning move
+    for (let i = 0; i < winningConditions.length; i++) {
+        const [a, b, c] = winningConditions[i];
+        if (
+            gameState[a] === "O" &&
+            gameState[b] === "O" &&
+            gameState[c] === ""
+        ) {
+            makeMove(c);
+            return;
+        }
+        if (
+            gameState[a] === "O" &&
+            gameState[c] === "O" &&
+            gameState[b] === ""
+        ) {
+            makeMove(b);
+            return;
+        }
+        if (
+            gameState[b] === "O" &&
+            gameState[c] === "O" &&
+            gameState[a] === ""
+        ) {
+            makeMove(a);
+            return;
+        }
+    }
+
+    // Check for a blocking move
+    for (let i = 0; i < winningConditions.length; i++) {
+        const [a, b, c] = winningConditions[i];
+        if (
+            gameState[a] === "X" &&
+            gameState[b] === "X" &&
+            gameState[c] === ""
+        ) {
+            makeMove(c);
+            return;
+        }
+        if (
+            gameState[a] === "X" &&
+            gameState[c] === "X" &&
+            gameState[b] === ""
+        ) {
+            makeMove(b);
+            return;
+        }
+        if (
+            gameState[b] === "X" &&
+            gameState[c] === "X" &&
+            gameState[a] === ""
+        ) {
+            makeMove(a);
+            return;
+        }
+    }
+
+    // Prioritize the center if available
+    if (availableCells.includes(4)) {
+        makeMove(4);
+        return;
+    }
+
+    // Make a random move
+    const randomIndex =
+        availableCells[Math.floor(Math.random() * availableCells.length)];
+    makeMove(randomIndex);
+}
+function makeMove(index) {
+    const clickedCell = document.querySelector(`.cell[data-cell-index='${index}']`);
+    handleCellPlayed(clickedCell, index);
+    handleResultValidation();
 }
 
 // Highlight the winning cells by adding a CSS class
@@ -145,6 +216,23 @@ function highlightWinningCells(winningCombination) {
         const cell = document.querySelector(`.cell[data-cell-index='${index}']`);
         cell.classList.add('winning-cell');
     });
+}
+function checkWinner() {
+    if (xScore === 5) {
+        showCelebration("X"); // Show celebration for X
+    } else if (oScore === 5) {
+        showCelebration("O"); // Show celebration for O
+    }
+}
+function showCelebration(player) {
+    const celebrationElement = document.getElementById('celebration');
+    celebrationElement.innerHTML = `Congratulations! ${player} wins with 5 points! 🎉`;
+    celebrationElement.style.display = 'block';
+
+    setTimeout(() => {
+        celebrationElement.style.display = 'none';
+        resetScoreBoard(); // Reset scores after celebration
+    }, 5000);
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
